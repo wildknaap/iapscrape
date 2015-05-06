@@ -3,14 +3,19 @@
 # Keeps your IAP up to date
 # Version 0.1
 
+dstdir = '/home/pablo/Downloads/test/'
+
+
 import os
 import sys
 import urllib2
 import re
-
+import os.path
+import urlparse
+import posixpath
 
 url001 = 'http://airnav.com/airport/'
-
+url002 = 'http://www.ais-netherlands.nl/aim/2015-03-19-AIRAC/eAIP/html/eAIP/EH-AD-2.EHAM-en-GB.html#eham-ad-2.24/'
 
 def error():
         print ''
@@ -28,13 +33,24 @@ def exit():
 	return
 
 
-def iap_usa():
+def iap_K():
 	response = urllib2.urlopen(''+url001+''+airport+'').read()
 	charts = re.findall('href=[\'"]?([^\'" >]+).PDF',response)
 
 	for pdf in charts:
-		print 'http://airnav.com'+pdf+'.PDF'
-			
+		pdfs = 'http://airnav.com'+pdf+'.PDF'
+		#print pdfs.strip( 'http://airnav.com/depart?' )
+		cleanurl = pdfs.strip('http://airnav.com/depart?')
+		fullurl = 'http://'+cleanurl+''		
+		print fullurl
+		path = urlparse.urlsplit(fullurl).path
+		filename = posixpath.basename(path)
+		print filename
+		response = urllib2.urlopen(fullurl)			
+		output = open(''+dstdir+'/'+filename+'','wb')
+		output.write(response.read())
+		output.close()
+				
 	return		
 
 
@@ -45,7 +61,7 @@ def airport_icao():
 	print ''
 	airport = raw_input('Enter the four letter ICAO designator of the aiport: ')
 
-	iap_usa()
+	iap_K()
 	
 	return
 
