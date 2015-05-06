@@ -38,7 +38,6 @@ def dst_dir():
         print 'Welcome to IAPscrape'
 	print ''
 	dstdir = raw_input('Enter destination directory: ')
-	print '' 
 	
 	airport_icao()
 
@@ -59,7 +58,7 @@ def iap_K():
 		response = urllib2.urlopen(fullurl)			
 		output = open(''+fullpath+'/'+filename+'','wb')
 		output.write(response.read())
-		output.close()
+		output.close()	
 				
 	return		
 
@@ -73,7 +72,7 @@ def airport_icao():
 	fullpath = ''+dstdir+'/'+airport+''
 
 	if not os.path.exists(fullpath):
-                os.makedirs(fullpath)
+	        os.makedirs(fullpath)
 
 	print ''
 
